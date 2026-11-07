@@ -22,3 +22,11 @@ services:
       timeout: 10s
       retries: 3
       start_period: 30s
+
+  tunnel:
+    image: cloudflare/cloudflared:2026.10.7
+    profiles: ["tunnel"]
+    command:  tunnel --no-autoupdate --url http://webhook:8000
+    depends_on:
+      - webhook
+    restart: unless-stopped
