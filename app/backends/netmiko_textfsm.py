@@ -35,12 +35,28 @@ def get_interface_state(
                 "timeout": 10,
             }
             with ConnectHandler(**device) as conn:
-                ip_info = conn.send_command(
-                    f"show ip interface {interface_name}", use_textfsm=True
-                )
-                descriptions = conn.send_command(
-                    "show interfaces description", use_textfsm=True
-                )
+                try:
+                    ip_info = conn.send_command(
+                        f"show ip interface {interface_name}", use_textfsm=True
+                    )
+                except Exception as parse_err:
+                    if "textfsm" in parse_err.__class__.__module__.lower() or "TextFSM" in parse_err.__class__.__name__:
+                        ip_info = []
+                    else:
+                        raise
+
+                if not isinstance(ip_info, list) or not ip_info:
+                    descriptions = []
+                else:
+                    try:
+                        descriptions = conn.send_command(
+                            "show interfaces description", use_textfsm=True
+                        )
+                    except Exception as parse_err:
+                        if "textfsm" in parse_err.__class__.__module__.lower() or "TextFSM" in parse_err.__class__.__name__:
+                            descriptions = []
+                        else:
+                            raise
     except PermissionError:
         return error("authentication_failed")
     except ConnectionError:
