@@ -1,0 +1,10 @@
+fixture: 05-update-ipv4-only.yaml
+
+expected:
+  status: ok
+  result: planned
+  operation: update
+  changes:
+    ipv4:
+      from: 10.114.1.2/32
+      to: 10.114.1.1/32

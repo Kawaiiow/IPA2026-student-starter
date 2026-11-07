@@ -1,0 +1,13 @@
+fixture: 07-update-ip-and-desc.yaml
+
+expected:
+  status: ok
+  result: planned
+  operation: update
+  changes:
+    ipv4:
+      from: 10.114.1.1/32
+      to: 10.114.5.5/32
+    description:
+      from: OLD-DESCRIPTION
+      to: NEW-DESCRIPTION
