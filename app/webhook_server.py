@@ -55,8 +55,8 @@ class WebexEventHandler:
             return None
 
         room_id = message.get("roomId")
-        mentioned_people = message.get("mentionedPeople", [])
-        files = message.get("files", [])
+        mentioned_people = message.get("mentionedPeople") or []
+        files = message.get("files") or []
 
         # Multiple attachments
         if len(files) > 1:
